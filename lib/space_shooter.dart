@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flame/parallax.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:space_shooter/actor/player.dart';
 
 class SpaceShooterGame extends FlameGame with PanDetector {
@@ -10,17 +12,19 @@ class SpaceShooterGame extends FlameGame with PanDetector {
 
   @override
   FutureOr<void> onLoad() async {
-    await super.onLoad();
-    
-    final playerSprite = await loadSprite('player-sprite.png');
-    player = Player()
-      ..sprite = playerSprite
-      ..x = size.x / 2
-      ..y = size.y / 2
-      ..width = 50
-      ..height = 100
-      ..anchor = Anchor.center;
+    final parallax = await loadParallaxComponent(
+      [
+        ParallaxImageData('bg_01.png'),
+        ParallaxImageData('bg_02.png'),
+        ParallaxImageData('bg_03.png'),
+      ],
+      baseVelocity: Vector2(0, -5),
+      repeat: ImageRepeat.repeat,
+      velocityMultiplierDelta: Vector2(0, 5)
+    );
+    add(parallax);
 
+    player = Player();
     add(player);
   }
 
