@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:space_shooter/space_shooter.dart';
 
@@ -13,6 +14,7 @@ class Bullet extends SpriteComponent with HasGameReference<SpaceShooterGame> {
     await super.onLoad();
 
     sprite = await game.loadSprite('bullet.png');
+    add(RectangleHitbox(collisionType: CollisionType.passive));
   }
 
   @override

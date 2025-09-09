@@ -10,7 +10,7 @@ import 'package:space_shooter/actors/player.dart';
 
 import 'actors/enemy.dart';
 
-class SpaceShooterGame extends FlameGame with PanDetector {
+class SpaceShooterGame extends FlameGame with PanDetector, HasCollisionDetection {
   late Player player;
 
   @override
