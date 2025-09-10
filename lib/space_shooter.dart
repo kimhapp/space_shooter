@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:flame/events.dart';
 import 'package:flame/experimental.dart';
 import 'package:flame/game.dart';
 import 'package:flame/parallax.dart';
@@ -10,16 +9,17 @@ import 'package:space_shooter/actors/player.dart';
 
 import 'actors/enemy.dart';
 
-class SpaceShooterGame extends FlameGame with PanDetector, HasCollisionDetection {
+class SpaceShooterGame extends FlameGame with HasCollisionDetection {
   late Player player;
+  late final JoystickComponent joystick;
 
   @override
   FutureOr<void> onLoad() async {
     final parallax = await loadParallaxComponent(
       [
-        ParallaxImageData('bg_01.png'),
-        ParallaxImageData('bg_02.png'),
-        ParallaxImageData('bg_03.png'),
+        ParallaxImageData('Backgrounds/bg_01.png'),
+        ParallaxImageData('Backgrounds/bg_02.png'),
+        ParallaxImageData('Backgrounds/bg_03.png'),
       ],
       baseVelocity: Vector2(0, -5),
       repeat: ImageRepeat.repeat,
@@ -39,23 +39,18 @@ class SpaceShooterGame extends FlameGame with PanDetector, HasCollisionDetection
             area: Rectangle.fromLTWH(0, 0, size.x, -Enemy.enemySize)
         )
     );
-  }
 
-  @override
-  void onPanUpdate(DragUpdateInfo info) {
-    super.onPanUpdate(info);
-    player.move(info.delta.global);
-  }
-
-  @override
-  void onPanStart(DragStartInfo info) {
-    super.onPanStart(info);
-    player.startShooting();
-  }
-
-  @override
-  void onPanEnd(DragEndInfo info) {
-    super.onPanEnd(info);
-    player.stopShooting();
+    joystick = JoystickComponent(
+        knob: SpriteComponent(
+            sprite: await loadSprite("HUD/Knob.png"),
+            size: Vector2.all(64)
+        ),
+        background: SpriteComponent(
+            sprite: await loadSprite("HUD/Joystick.png"),
+            size: Vector2.all(128)
+        ),
+        margin: const EdgeInsets.only(left: 64, bottom: 64)
+    );
+    add(joystick);
   }
 }

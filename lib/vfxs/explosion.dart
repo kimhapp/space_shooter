@@ -11,7 +11,7 @@ class Explosion extends SpriteAnimationComponent with HasGameReference<SpaceShoo
   FutureOr<void> onLoad() async {
     await super.onLoad();
 
-    animation = await game.loadSpriteAnimation('explosion.png', SpriteAnimationData.sequenced(
+    animation = await game.loadSpriteAnimation('VFX/explosion.png', SpriteAnimationData.sequenced(
       amount: 4, stepTime: 0.15, textureSize: Vector2.all(8), loop: false
     ));
   }

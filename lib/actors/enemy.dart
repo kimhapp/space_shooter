@@ -15,7 +15,7 @@ class Enemy extends SpriteComponent with HasGameReference<SpaceShooterGame>, Col
   FutureOr<void> onLoad() async {
     await super.onLoad();
 
-    sprite = await game.loadSprite('enemy.png');
+    sprite = await game.loadSprite('Characters/enemy/enemy.png');
     add(RectangleHitbox());
   }
 

@@ -13,7 +13,7 @@ class Bullet extends SpriteComponent with HasGameReference<SpaceShooterGame> {
   FutureOr<void> onLoad() async {
     await super.onLoad();
 
-    sprite = await game.loadSprite('bullet.png');
+    sprite = await game.loadSprite('Characters/player/bullet.png');
     add(RectangleHitbox(collisionType: CollisionType.passive));
   }
 
