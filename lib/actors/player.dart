@@ -32,7 +32,7 @@ class Player extends SpriteComponent with HasGameReference<SpaceShooterGame> {
   void update(double dt) {
     super.update(dt);
     joystickMovement();
-    position += direction.scaled(moveSpeed * dt);
+    position += direction.normalized().scaled(moveSpeed * dt);
   }
 
   void move(Vector2 delta) {
