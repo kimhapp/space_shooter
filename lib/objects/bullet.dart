@@ -6,7 +6,7 @@ import 'package:space_shooter/space_shooter.dart';
 
 class Bullet extends SpriteComponent with HasGameReference<SpaceShooterGame> {
   Bullet({super.position}) : super(
-    size: Vector2.all(32), anchor: Anchor.center
+    size: Vector2.all(16), anchor: Anchor.center
   );
 
   @override

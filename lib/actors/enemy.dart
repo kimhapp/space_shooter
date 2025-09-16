@@ -9,7 +9,8 @@ import 'package:space_shooter/vfxs/explosion.dart';
 class Enemy extends SpriteComponent with HasGameReference<SpaceShooterGame>, CollisionCallbacks {
   Enemy({super.position}) : super(size: Vector2.all(enemySize), anchor: Anchor.center);
 
-  static const enemySize = 48.0;
+  static const enemySize = 16.0;
+  double moveSpeed = 200;
 
   @override
   FutureOr<void> onLoad() async {
@@ -23,7 +24,7 @@ class Enemy extends SpriteComponent with HasGameReference<SpaceShooterGame>, Col
   void update(double dt) {
     super.update(dt);
 
-    position.y += dt * 250;
+    position.y += dt * moveSpeed;
 
     if (position.y > game.size.y) removeFromParent();
   }
@@ -35,7 +36,7 @@ class Enemy extends SpriteComponent with HasGameReference<SpaceShooterGame>, Col
     if (other is Bullet) {
       other.removeFromParent();
       removeFromParent();
-      game.add(Explosion(position: position));
+      game.world.add(Explosion(position: position));
     }
   }
 }

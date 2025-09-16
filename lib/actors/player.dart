@@ -5,11 +5,12 @@ import 'package:space_shooter/objects/bullet.dart';
 import 'package:space_shooter/space_shooter.dart';
 
 class Player extends SpriteComponent with HasGameReference<SpaceShooterGame> {
-  Player() : super(size: Vector2.all(32), anchor: Anchor.center);
+  Player() : super(size: Vector2.all(16), anchor: Anchor.center);
 
   late final SpawnComponent _bulletSpawner;
   final Vector2 direction = Vector2.zero();
   double moveSpeed = 200;
+  bool isShooting = false;
 
   @override
   FutureOr<void> onLoad() async {
@@ -24,67 +25,42 @@ class Player extends SpriteComponent with HasGameReference<SpaceShooterGame> {
       },
       autoStart: false
     );
-    game.add(_bulletSpawner);
+    game.world.add(_bulletSpawner);
     return super.onLoad();
   }
 
   @override
   void update(double dt) {
     super.update(dt);
-    joystickMovement();
-    position += direction.normalized().scaled(moveSpeed * dt);
-  }
-
-  void move(Vector2 delta) {
-    position.add(delta);
+    joystickMovement(dt);
   }
 
   void startShooting() {
     _bulletSpawner.timer.start();
+    isShooting = true;
   }
 
   void stopShooting() {
     _bulletSpawner.timer.stop();
+    isShooting = false;
   }
 
-  void joystickMovement() {
-    switch (game.joystick.direction) {
-      case JoystickDirection.left:
-        direction.x = -1;
-        direction.y = 0;
-        break;
-      case JoystickDirection.upLeft:
-        direction.y = -1;
-        direction.x = -1;
-        break;
-      case JoystickDirection.downLeft:
-        direction.y = 1;
-        direction.x = -1;
-        break;
-      case JoystickDirection.up:
-        direction.y = -1;
-        direction.x = 0;
-        break;
-      case JoystickDirection.down:
-        direction.y = 1;
-        direction.x = 0;
-        break;
-      case JoystickDirection.right:
-        direction.x = 1;
-        direction.y = 0;
-        break;
-      case JoystickDirection.upRight:
-        direction.y = -1;
-        direction.x = 1;
-        break;
-      case JoystickDirection.downRight:
-        direction.y = 1;
-        direction.x = 1;
-        break;
-      default:
-        direction.y = 0;
-        direction.x = 0;
-        break;
+  void joystickMovement(double dt) {
+    if (game.joystick.direction != JoystickDirection.idle) {
+      position.add(game.joystick.relativeDelta * moveSpeed * dt);
+
+      final screenWidth = 640;
+      final screenHeight = 360;
+
+      // Get the player's ship size
+      final halfWidth = width / 2;
+      final halfHeight = height / 2;
+
+      // Clamp the position so the ship won't go out of bound
+      position.clamp(
+          Vector2(halfWidth, halfHeight),
+          Vector2(screenWidth - halfWidth, screenHeight - halfHeight)
+      );
     }
   }
 }
