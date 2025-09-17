@@ -4,10 +4,14 @@ import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'package:space_shooter/space_shooter.dart';
 
+import '../actors/player.dart';
+
 class Bullet extends SpriteComponent with HasGameReference<SpaceShooterGame> {
-  Bullet({super.position}) : super(
+  Bullet(this.player, {super.position}) : super(
     size: Vector2.all(16), anchor: Anchor.center
   );
+
+  Player player;
 
   @override
   FutureOr<void> onLoad() async {

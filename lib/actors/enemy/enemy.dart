@@ -11,6 +11,7 @@ class Enemy extends SpriteComponent with HasGameReference<SpaceShooterGame>, Col
 
   static const enemySize = 16.0;
   double moveSpeed = 200;
+  double energyGained = 10;
 
   @override
   FutureOr<void> onLoad() async {
@@ -36,6 +37,10 @@ class Enemy extends SpriteComponent with HasGameReference<SpaceShooterGame>, Col
     if (other is Bullet) {
       other.removeFromParent();
       removeFromParent();
+      if (!other.player.isSkillActive) {
+        other.player.energy =
+            (other.player.energy + energyGained).clamp(0, other.player.maxEnergy);
+      }
       game.world.add(Explosion(position: position));
     }
   }

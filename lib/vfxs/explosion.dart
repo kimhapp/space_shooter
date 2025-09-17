@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flame/components.dart';
-import 'package:space_shooter/actors/enemy.dart';
+import 'package:space_shooter/actors/enemy/enemy.dart';
 import 'package:space_shooter/space_shooter.dart';
 
 class Explosion extends SpriteAnimationComponent with HasGameReference<SpaceShooterGame> {
