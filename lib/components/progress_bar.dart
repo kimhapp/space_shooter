@@ -7,8 +7,6 @@ class ProgressBar extends PositionComponent {
   double currentValue;
   final Color backgroundColor;
   final Color foregroundColor;
-  final double width;
-  final double height;
   final bool showBorder;
   final Color borderColor;
   final double borderWidth;
@@ -18,12 +16,11 @@ class ProgressBar extends PositionComponent {
     required this.currentValue,
     this.backgroundColor = const Color(0xFF555555),
     this.foregroundColor = const Color(0xFF00FF00),
-    required this.width,
-    required this.height,
     this.showBorder = true,
     this.borderColor = const Color(0xFF000000),
     this.borderWidth = 2,
     super.position,
+    super.size
   });
 
   @override
