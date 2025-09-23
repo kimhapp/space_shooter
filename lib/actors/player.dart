@@ -9,6 +9,7 @@ class Player extends SpriteComponent with HasGameReference<SpaceShooterGame> {
 
   late final SpawnComponent _bulletSpawner;
   final Vector2 direction = Vector2.zero();
+  JoystickComponent? joystick;
 
   double moveSpeed = 200;
   double maxFuel = 100;
@@ -68,8 +69,8 @@ class Player extends SpriteComponent with HasGameReference<SpaceShooterGame> {
   }
 
   void joystickMovement(double dt) {
-    if (game.joystick.direction != JoystickDirection.idle) {
-      position.add(game.joystick.relativeDelta * moveSpeed * dt);
+    if (joystick != null && joystick?.direction != JoystickDirection.idle) {
+      position.add(joystick!.relativeDelta * moveSpeed * dt);
 
       if (isBoosting && fuel > 0) {
         fuel = (fuel - fuelConsumption * dt).clamp(0, maxFuel);
